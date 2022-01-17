@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Objective
-Build an application where the user is able to practice their typing speed and accuracy while learning/practicing coding languages at the same time. In the current build, the user is able to practice, Typescripts, Javascript, HTML, CSS, and plain engligh.
+Build an application where the user is able to practice their typing speed and accuracy while learning/practicing coding languages at the same time. In the current build, the user is able to practice, Typescripts, Javascript, HTML, CSS, and plain english.
 
 ![Typing Game Image](public/assets/app-demo.png)
 
