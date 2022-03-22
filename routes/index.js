@@ -43,53 +43,6 @@ router.get('/api/highscores', async function (req, res) {
   })
 });
 
-//data route for prompts
-router.get('/api/prompt/typescript', async function (req, res) {
-  const exam = await Prompt.findAll({
-    where: { language_id: 1},
-    order: [["prompt",]],
-  }).then(function (examPrompt) {
-    res.json(examPrompt)
-  })
-});
-
-router.get('/api/prompt/javascript', async function (req, res) {
-  const exam = await Prompt.findAll({
-    where: { language_id: 2},
-    order: [["prompt",]],
-  }).then(function (examPrompt) {
-    res.json(examPrompt)
-  })
-});
-
-router.get('/api/prompt/html', async function (req, res) {
-  const exam = await Prompt.findAll({
-    where: { language_id: 3},
-    order: [["prompt",]],
-  }).then(function (examPrompt) {
-    res.json(examPrompt)
-  })
-});
-
-router.get('/api/prompt/css', async function (req, res) {
-  const exam = await Prompt.findAll({
-    where: { language_id: 4},
-    order: [["prompt",]],
-  }).then(function (examPrompt) {
-    res.json(examPrompt)
-  })
-});
-
-router.get('/api/prompt/english', async function (req, res) {
-  const exam = await Prompt.findAll({
-    where: { language_id: 5},
-    order: [["prompt",]],
-  }).then(function (examPrompt) {
-    res.json(examPrompt)
-  })
-});
-
-
 // Method to Write to Highscores
 router.post("/highscores", async function (req, res) {
   console.log("YOUR SESSION", req.session);

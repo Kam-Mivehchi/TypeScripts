@@ -14,6 +14,8 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const promptsRouter = require('./routes/prompts');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -44,6 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/prompts', promptsRouter);
+
 
 // sync sequelize models to the database, then turn on the server
 seq.sync({ force: false }).then(() => {
