@@ -1,6 +1,7 @@
 // Dependencies
 var express = require('express');
 const { Scores } = require('../models');
+const { Prompt } = require('../models');
 const { User } = require('../models');
 var router = express.Router();
 
@@ -39,6 +40,16 @@ router.get('/api/highscores', async function (req, res) {
     limit: 10,
   }).then(function (highscores) {
     res.json(highscores)
+  })
+});
+
+//data route for prompts
+router.get('/api/prompt/', async function (req, res) {
+  const exam = await Prompt.findAll({
+    order: [["prompt", "DESC"]],
+    limit: 10,
+  }).then(function (examPrompt) {
+    res.json(examPrompt)
   })
 });
 
