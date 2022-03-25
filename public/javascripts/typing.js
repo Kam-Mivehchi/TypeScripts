@@ -3,28 +3,6 @@ const typingDiv = document.getElementById("typing");
 const statsDiv = document.getElementById("stats");
 const startGameBtn = document.getElementById("start-game");
 
-// Language Choice
-let source = [];
-
-//Finds Prompt based on language selection
-async function getPrompt(language){
-  // Language Choice
-  let source = [];
-  //local scope
-  let languageSearch = "http://localhost:3001/prompts/"+language;
-  fetch(languageSearch,{})
-  .then(function (response){
-    console.log(response);
-    return response.json();
-  })
-  .then(function (data){
-    console.log(data)
-    let source = data.prompt
-    console.log(source)
-    return source
-  })
-}
-  
 // Checks for language choice
 $(document).on("click", ".language", function () {
   let language = $(this).attr("data-id")
@@ -41,40 +19,19 @@ const startGame = (language) => {
   typingDiv.innerHTML = "";
   statsDiv.innerHTML = "";
 
-  // Parses Language
-  if (language == "typescript") {
-    language_id_num = 1;
-  } else if (language == "javascript") {
-    language_id_num = 2;
-  } else if (language == "html") {
-    language_id_num = 3;
-  } else if (language == "css") {
-    language_id_num = 4;
-  } else if (language == "english") {
-    language_id_num = 5;
-  }
+  let languageSearch = "http://localhost:3001/prompts/"+language;
+  fetch(languageSearch,{})
+    .then((response) => { 
+      return response.json().then((data) => {
+        console.log(data);
+        return data;
+    }).then((data)=> {
+      source = data.prompt;
+      console.log(source)
 
-  //Get Prompts
-  getPrompt(language);
-  
-// // Populate Prompts
-// router.get(`/${language}`, async function (req, res) {
-//   const exams = await Prompt.findOne({
-//     where: { language_id: `${language_id_num}`},
-//     order: Sequelize.literal('RAND()'),
-//   }).then(function (examPrompt) {
-//     res.json(examPrompt)
-//   })
-//   console.log(examPrompt.prompt)
-// });
-
-  // Randomly Selects from Choice Language
-  const text = source;
-
-  // console.log(text) // Would display chosen text in Console
-
+      
   // Splits text array apart by spaces
-  const characters = text.split("").map((char) => {
+  const characters = source.split("").map((char) => {
     const span = document.createElement("span");
     span.innerText = char;
     typingDiv.appendChild(span);
@@ -88,6 +45,8 @@ const startGame = (language) => {
   // Displays Cursor Position
   let cursorCharacter = characters[cursorIndex];
   cursorCharacter.classList.add("cursor");
+  cursorCharacter.classList.add("pre");
+
 
   // Start Time Declared
   let startTime = null;
@@ -134,7 +93,7 @@ const startGame = (language) => {
       const endTime = new Date();
       const delta = endTime - startTime;
       const seconds = delta / 1000;
-      const numberOfCharacters = text.split("").length;
+      const numberOfCharacters = source.split("").length;
       const cps = parseInt(numberOfCharacters / seconds);
       const cpm = cps * 60.0;
       if (errors === 0) {
@@ -144,7 +103,7 @@ const startGame = (language) => {
       };
       document.getElementById("stats").innerText = `score = ${score} \n Number of Characters per Minute = ${cpm} \n errors = ${errors}`;
       // If user logged in, post to score database
-      if (score) {
+      if (Scores.user_id) {
         $.ajax("/highscores", {
           method: "POST",
           data: { score }
@@ -156,5 +115,11 @@ const startGame = (language) => {
   };
   // Listens for start of typing
   document.addEventListener("keydown", keydown);
+
+    }).catch((err) => {
+        console.log(err);
+    }) 
+  });
+
 };
 
